@@ -34,6 +34,9 @@ namespace Super_Chat
 
         private void connect_button_Click(object sender, RoutedEventArgs e)
         {
+            send_Button.IsEnabled = true;
+            connect_button.IsEnabled = false;
+            disconect_Button.IsEnabled = true;
             socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             socket.Connect("127.0.0.1", 8080);//подключаемся к серверному сокету
             string usenName = userNameTB.Text;//получаем имя пользователя
@@ -58,7 +61,7 @@ namespace Super_Chat
                    //ответ сервера
                    byte[] answer = new byte[1024];
                    socket.Receive(answer);
-                   chatBoxTB.Text += Encoding.ASCII.GetString(answer) + "\n";
+                   chatBoxTB.AppendText( Encoding.ASCII.GetString(answer) + "\n");
 
                    // закрываем сокет
                    // socket.Shutdown(SocketShutdown.Both);
@@ -71,6 +74,11 @@ namespace Super_Chat
         private void messageTB_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             messageTB.Text = "";
+        }
+
+        private void disconect_Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

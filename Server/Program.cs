@@ -44,29 +44,37 @@ namespace Server
 
         static void userMessage(Socket some)
         {
-            while (true)
+            try
             {
-                byte[] buffer = new byte[1024];//данные от пользователя
-                int size = 0;
-                StringBuilder builder = new StringBuilder();
-
-                do
+                while (true)
                 {
-                    size = some.Receive(buffer);//получаем данные от пользователя
-                    builder.Append(Encoding.UTF8.GetString(buffer, 0, size));
-                }
-                while (some.Available > 0);
+                    byte[] buffer = new byte[1024];//данные от пользователя
+                    int size = 0;
+                    StringBuilder builder = new StringBuilder();
 
-                Console.WriteLine(builder);
-                foreach (var something in clients)
-                {
-                    something.Send(buffer);
-                }
-                
+                    do
+                    {
+                        size = some.Receive(buffer);//получаем данные от пользователя
+                        builder.Append(Encoding.UTF8.GetString(buffer, 0, size));
+                    }
+                    while (some.Available > 0);
 
-                 //some.Shutdown(SocketShutdown.Both);//выключили
-                 //some.Close();//закрыли
+                    Console.WriteLine(builder);
+                    foreach (var something in clients)
+                    {
+                        something.Send(buffer);
+                    }
+
+
+                    
+                }
             }
+            catch (Exception ex)
+            {
+                socket.Shutdown(SocketShutdown.Both);//выключили
+                socket.Close();//закрыли
+            }
+
         }
     }
 }

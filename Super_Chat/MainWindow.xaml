@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Super_Chat"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
-        Title="MainWindow" Height="355" Width="610"
+        Title="MainWindow" Height="508" Width="316"
         Background="Gray">
     <Grid>
         <TextBox x:Name="userNameTB" HorizontalAlignment="Left" Height="28" Margin="10,39,0,0" 
@@ -14,14 +14,22 @@
                  Background="White"/>
         <Label Content="Имя пользователя" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
         <Button x:Name="connect_button" Click="connect_button_Click" Content="Подключиться" HorizontalAlignment="Left" 
-                Margin="160,39,0,0" VerticalAlignment="Top" Width="132" Height="28" FontSize="12" Background="DarkSlateGray"/>
-        <TextBox x:Name="chatBoxTB" HorizontalAlignment="Left" Height="270" Margin="346,39,0,0" 
-                 TextWrapping="Wrap"  VerticalAlignment="Top" Width="236" Background="White"/>
-        <TextBox x:Name="messageTB" HorizontalAlignment="Left" Height="83" Margin="10,93,0,0" TextWrapping="Wrap" 
+                Margin="160,10,0,0" VerticalAlignment="Top" Width="132" Height="28" FontSize="12" Background="DarkSlateGray"/>
+        <TextBox x:Name="messageTB" HorizontalAlignment="Left" Height="83" Margin="10,345,0,0" TextWrapping="Wrap" 
                  Text="Введите сообщение" VerticalAlignment="Top" Width="282" BorderBrush="Black" Background="White"
                  PreviewMouseLeftButtonDown="messageTB_PreviewMouseLeftButtonDown"/>
-        <Button x:Name="send_Button" Click="send_Button_Click" Content="Отправить" HorizontalAlignment="Left" 
-                Margin="195,192,0,0" VerticalAlignment="Top" Width="97" Background="Black" FontSize="12"/>
+        <Button x:Name="send_Button" Click="send_Button_Click" Content="Отправить" HorizontalAlignment="Center"
+                Margin="100,433,111,0" VerticalAlignment="Top" Background="Black" FontSize="12" IsEnabled="False"/>
+        <Button x:Name="disconect_Button" Click="disconect_Button_Click" Content="Отключиться" HorizontalAlignment="Left" 
+            Margin="160,48,0,0" VerticalAlignment="Top" Width="132" Height="28" FontSize="12" Background="DarkSlateGray"
+                IsEnabled="False"/>
+        <RichTextBox x:Name="chatBoxTB" HorizontalAlignment="Left" Height="246" Margin="10,94,0,0" VerticalAlignment="Top" Width="282" Background="White">
+            <FlowDocument>
+                <Paragraph>
+                    <Run Text=""/>
+                </Paragraph>
+            </FlowDocument>
+        </RichTextBox>
 
     </Grid>
 </Window>
