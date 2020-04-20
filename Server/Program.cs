@@ -13,6 +13,7 @@ namespace Server
         public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         public static int port = 8080; // порт для приема входящих запросов
         public static IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
+        public static byte[] userName = new byte[1024];
         static void Main(string[] args)
         {
             Task.Run (() =>serv());
@@ -23,13 +24,17 @@ namespace Server
         {
             try
             {
-                socket.Bind(endPoint);//привязываем сервер к определенному адресу
-                socket.Listen(15);//задаем количество одновременных подключений и ставим сокет в режим прослушивания
-                Console.WriteLine("Сервер запущен. Ожидание подключений...");
-                Socket client = socket.Accept();//принимаем нового клиента
-                clients.Add(client);
-                Console.WriteLine("Новый пользователь");
-                Task.Run(() => userMessage(client));
+                while (true)
+                {
+                    socket.Bind(endPoint);//привязываем сервер к определенному адресу
+                    socket.Listen(15);//задаем количество одновременных подключений и ставим сокет в режим прослушивания
+                    Console.WriteLine("Сервер запущен. Ожидание подключений...");
+                    Socket client = socket.Accept();//принимаем нового клиента
+                    clients.Add(client);
+                    client.Receive(userName);
+                    Console.WriteLine("Новый пользователь - " + Encoding.UTF8.GetString(userName));
+                    Task.Run(() => userMessage(client));
+                }
             }
             catch (Exception ex)
             {
@@ -53,7 +58,6 @@ namespace Server
                 while (some.Available > 0);
 
                 Console.WriteLine(builder);
-
                 foreach (var something in clients)
                 {
                     something.Send(buffer);

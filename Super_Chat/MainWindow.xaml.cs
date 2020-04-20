@@ -24,7 +24,7 @@ namespace Super_Chat
     /// </summary>
     public partial class MainWindow : Window
     {
-        static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        static Socket socket;
 
 
         public MainWindow()
@@ -32,9 +32,13 @@ namespace Super_Chat
             InitializeComponent();
         }
 
-        private async void connect_button_Click(object sender, RoutedEventArgs e)
+        private void connect_button_Click(object sender, RoutedEventArgs e)
         {
-            await Task.Run(() => socket.Connect("127.0.0.1", 8080));//подключаемся к серверному сокету
+            socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            socket.Connect("127.0.0.1", 8080);//подключаемся к серверному сокету
+            string usenName = userNameTB.Text;//получаем имя пользователя
+            byte[] buffer = Encoding.ASCII.GetBytes(usenName);//кодируем имя пользователя для отправки
+            socket.Send(buffer);//отправляем имя пользователя серверу
         }
 
         private async void send_Button_Click(object sender, RoutedEventArgs e)
@@ -47,14 +51,14 @@ namespace Super_Chat
             this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                (ThreadStart)delegate ()
                {
-                   string message = messageTB.Text;//получаем текст сообщения
+                   string message = userNameTB.Text + ": " + messageTB.Text;//получаем текст сообщения
                    byte[] buffer = Encoding.ASCII.GetBytes(message);//кодируем наше сообщение для отправки
                    socket.Send(buffer);
 
                    //ответ сервера
                    byte[] answer = new byte[1024];
                    socket.Receive(answer);
-                   chatBoxTB.Text += Encoding.ASCII.GetString(answer);
+                   chatBoxTB.Text += Encoding.ASCII.GetString(answer) + "\n";
 
                    // закрываем сокет
                    // socket.Shutdown(SocketShutdown.Both);
