@@ -1,0 +1,53 @@
+  static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        static void Main(string[] args)
+        {
+            serv();
+            Console.ReadLine();
+        }
+
+        static async void serv()
+        {
+            try
+            {
+                int port = 8080; // порт для приема входящих запросов
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
+                socket.Bind(endPoint);//привязываем сервер к определенному адресу
+                socket.Listen(15);
+                Console.WriteLine("Сервер запущен. Ожидание подключений...");
+                Socket client = socket.Accept();//принимаем нового клиента
+                await Task.Run(()=> userMessage(client));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
+        static void userMessage(Socket some)
+        {
+            while (true)
+            {
+                //Task.Run(() => socket.Listen(15));//задаем количество одновременных подключений и ставим сокет в режим прослушивания
+                //socket.Listen(15);
+                //Console.WriteLine("Сервер запущен. Ожидание подключений...");
+                //Socket client = socket.Accept();//принимаем нового клиента
+                Console.WriteLine("Новый пользователь");
+                byte[] buffer = new byte[1024];//данные от пользователя
+                int size = 0;
+                StringBuilder builder = new StringBuilder();
+
+                do
+                {
+                    size = some.Receive(buffer);//получаем данные от пользователя
+                    builder.Append(Encoding.UTF8.GetString(buffer, 0, size));
+                }
+                while (some.Available > 0);
+
+                Console.WriteLine(builder);
+
+                some.Send(buffer);
+
+                // client.Shutdown(SocketShutdown.Both);//выключили
+                // client.Close();//закрыли
+            }
+        }
