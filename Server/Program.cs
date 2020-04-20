@@ -10,87 +10,59 @@ namespace Server
     class Program
     {
         public static List<Socket> clients = new List<Socket>();
-
-        
-        public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp); 
-        public static short Port = 1234; 
+        public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+        public static int port = 8080; // порт для приема входящих запросов
+        public static IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
         static void Main(string[] args)
         {
-            StartListening();
+            Task.Run (() =>serv());
             Console.ReadLine();
         }
 
-        public static void StartListening()
+        static void serv()
         {
             try
             {
-                Console.WriteLine($"Listening started port:{Port} protocol type: {ProtocolType.Tcp}");
-                socket.Bind(new IPEndPoint(IPAddress.Any, Port));
-                socket.Listen(10);
-                socket.BeginAccept(AcceptCallback, socket);
+                socket.Bind(endPoint);//привязываем сервер к определенному адресу
+                socket.Listen(15);//задаем количество одновременных подключений и ставим сокет в режим прослушивания
+                Console.WriteLine("Сервер запущен. Ожидание подключений...");
+                Socket client = socket.Accept();//принимаем нового клиента
+                clients.Add(client);
+                Console.WriteLine("Новый пользователь");
+                Task.Run(() => userMessage(client));
             }
             catch (Exception ex)
             {
-                throw new Exception("listening error" + ex);
+                Console.WriteLine(ex.Message);
             }
         }
 
-        public static void AcceptCallback(IAsyncResult ar)
+        static void userMessage(Socket some)
         {
-            try
+            while (true)
             {
-                Console.WriteLine($"Accept CallBack port:{Port} protocol type: {ProtocolType.Tcp}");
-                Socket acceptedSocket = socket.EndAccept(ar);
-                clients.Add(acceptedSocket);
+                byte[] buffer = new byte[1024];//данные от пользователя
+                int size = 0;
+                StringBuilder builder = new StringBuilder();
 
-                socket.BeginAccept(AcceptCallback, socket);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Base Accept error" + ex);
-            }
-        }
-        Socket _receiveSocket = socket;
-
-        byte[] _buffer = new byte[1024];
-        public void StartReceiving()
-        {
-           
-
-            try
-            {
-                _buffer = new byte[1024];
-                _receiveSocket.BeginReceive(_buffer, 0, _buffer.Length, SocketFlags.None, ReceiveCallback, null);
-            }
-            catch { }
-        }
-
-        private void ReceiveCallback(IAsyncResult AR)
-        {
-            try
-            {
-                if (_receiveSocket.EndReceive(AR) > 1)
+                do
                 {
-                    // Convert the first 4 bytes (int 32) that we received and convert it to an Int32 (this is the size for the coming data).
-                    _buffer = new byte[BitConverter.ToInt32(_buffer, 0)];
-                    // Next receive this data into the buffer with size that we did receive before
-                    _receiveSocket.Receive(_buffer, _buffer.Length, SocketFlags.None);
-                    string data = Encoding.Default.GetString(_buffer);
-                    Console.WriteLine(data);
-                    // Now we have to start all over again with waiting for a data to come from the socket.
-                    StartReceiving();
+                    size = some.Receive(buffer);//получаем данные от пользователя
+                    builder.Append(Encoding.UTF8.GetString(buffer, 0, size));
                 }
-                else
+                while (some.Available > 0);
+
+                Console.WriteLine(builder);
+
+                foreach (var something in clients)
                 {
+                    something.Send(buffer);
                 }
-            }
-            catch
-            {
-               
+                
+
+                 //some.Shutdown(SocketShutdown.Both);//выключили
+                 //some.Close();//закрыли
             }
         }
-
-
-
     }
 }

@@ -24,7 +24,6 @@ namespace Super_Chat
     /// </summary>
     public partial class MainWindow : Window
     {
-        //создем наш сокет
         static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
 
@@ -35,7 +34,7 @@ namespace Super_Chat
 
         private async void connect_button_Click(object sender, RoutedEventArgs e)
         {
-             await Task.Run(() => socket.Connect("127.0.0.1", 8080));//подключаемся к серверному сокету
+            await Task.Run(() => socket.Connect("127.0.0.1", 8080));//подключаемся к серверному сокету
         }
 
         private async void send_Button_Click(object sender, RoutedEventArgs e)
@@ -58,11 +57,11 @@ namespace Super_Chat
                    chatBoxTB.Text += Encoding.ASCII.GetString(answer);
 
                    // закрываем сокет
-                  // socket.Shutdown(SocketShutdown.Both);
-                  // socket.Close();
+                   // socket.Shutdown(SocketShutdown.Both);
+                   // socket.Close();
                }
             );
-            
+
         }
 
         private void messageTB_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
