@@ -24,11 +24,12 @@ namespace Server
         {
             try
             {
+               
+                socket.Bind(endPoint);//привязываем сервер к определенному адресу
+                socket.Listen(15);//задаем количество одновременных подключений и ставим сокет в режим прослушивания
+                Console.WriteLine("Сервер запущен. Ожидание подключений...");
                 while (true)
                 {
-                    socket.Bind(endPoint);//привязываем сервер к определенному адресу
-                    socket.Listen(15);//задаем количество одновременных подключений и ставим сокет в режим прослушивания
-                    Console.WriteLine("Сервер запущен. Ожидание подключений...");
                     Socket client = socket.Accept();//принимаем нового клиента
                     clients.Add(client);
                     client.Receive(userName);

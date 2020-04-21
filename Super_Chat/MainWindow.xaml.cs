@@ -32,7 +32,7 @@ namespace Super_Chat
             InitializeComponent();
         }
 
-        private void connect_button_Click(object sender, RoutedEventArgs e)
+        private async void connect_button_Click(object sender, RoutedEventArgs e)
         {
             send_Button.IsEnabled = true;
             connect_button.IsEnabled = false;
@@ -42,11 +42,27 @@ namespace Super_Chat
             string usenName = userNameTB.Text;//получаем имя пользователя
             byte[] buffer = Encoding.ASCII.GetBytes(usenName);//кодируем имя пользователя для отправки
             socket.Send(buffer);//отправляем имя пользователя серверу
+            await Task.Run(() => asyncMessage());
         }
 
         private async void send_Button_Click(object sender, RoutedEventArgs e)
         {
             await Task.Run(() => sendMessage());
+        }
+
+        void asyncMessage()
+        {
+            this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
+               (ThreadStart)delegate ()
+               {
+                   while (true)
+                   {
+                       byte[] answer = new byte[1024];
+                       socket.Receive(answer);
+                       chatBoxTB.AppendText(Encoding.ASCII.GetString(answer) + "\n");
+                   }
+               }
+            );
         }
 
         void sendMessage()
