@@ -13,11 +13,18 @@ namespace Server
         public static Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         public static int port = 8080; // порт для приема входящих запросов
         public static IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
-        public static byte[] userName = new byte[1024];
+        public static byte[] userName = new byte[64];
         static void Main(string[] args)
         {
-            Task.Run (() =>serv());
-            Console.ReadLine();
+            try
+            {
+                Task.Run(() => serv());
+                Console.ReadLine();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
 
         static void serv()
@@ -33,7 +40,12 @@ namespace Server
                     Socket client = socket.Accept();//принимаем нового клиента
                     clients.Add(client);
                     client.Receive(userName);
-                    Console.WriteLine($"Новый пользователь - {Encoding.UTF8.GetString(userName)}");
+
+                    Console.WriteLine($"Новый пользователь - {Encoding.ASCII.GetString(userName)}");
+                    foreach (var something in clients)
+                    {
+                        something.Send(Encoding.ASCII.GetBytes($"Новый пользователь - {Encoding.ASCII.GetString(userName)}"));
+                    }
                     Task.Run(() => userMessage(client));
                 }
             }
@@ -56,7 +68,7 @@ namespace Server
                     do
                     {
                         size = some.Receive(buffer);//получаем данные от пользователя
-                        builder.Append(Encoding.UTF8.GetString(buffer, 0, size));
+                        builder.Append(Encoding.ASCII.GetString(buffer, 0, size));
                     }
                     while (some.Available > 0);
 
@@ -71,6 +83,7 @@ namespace Server
             {
                 socket.Shutdown(SocketShutdown.Both);//выключили
                 socket.Close();//закрыли
+                throw ex;
             }
 
         }

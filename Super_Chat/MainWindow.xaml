@@ -19,17 +19,11 @@
                  Text="Введите сообщение" VerticalAlignment="Top" Width="282" BorderBrush="Black" Background="White"
                  PreviewMouseLeftButtonDown="messageTB_PreviewMouseLeftButtonDown"/>
         <Button x:Name="send_Button" Click="send_Button_Click" Content="Отправить" HorizontalAlignment="Center"
-                Margin="100,433,111,0" VerticalAlignment="Top" Background="Black" FontSize="12" IsEnabled="False"/>
+                Margin="102,433,100,0" VerticalAlignment="Top" Background="Black" FontSize="12" IsEnabled="False" Width="106"/>
         <Button x:Name="disconect_Button" Click="disconect_Button_Click" Content="Отключиться" HorizontalAlignment="Left" 
             Margin="160,48,0,0" VerticalAlignment="Top" Width="132" Height="28" FontSize="12" Background="DarkSlateGray"
                 IsEnabled="False"/>
-        <RichTextBox x:Name="chatBoxTB" HorizontalAlignment="Left" Height="246" Margin="10,94,0,0" VerticalAlignment="Top" Width="282" Background="White">
-            <FlowDocument>
-                <Paragraph>
-                    <Run Text=""/>
-                </Paragraph>
-            </FlowDocument>
-        </RichTextBox>
+        <TextBox x:Name="chatBoxTB" HorizontalAlignment="Left" Height="255" Margin="10,85,0,0" TextWrapping="Wrap" Background="White" VerticalAlignment="Top" Width="282"/>
 
     </Grid>
 </Window>
