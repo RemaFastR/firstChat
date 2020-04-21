@@ -32,7 +32,7 @@ namespace Server
                     Socket client = socket.Accept();//принимаем нового клиента
                     clients.Add(client);
                     client.Receive(userName);
-                    Console.WriteLine("Новый пользователь - " + Encoding.UTF8.GetString(userName));
+                    Console.WriteLine($"Новый пользователь - {Encoding.UTF8.GetString(userName)}");
                     Task.Run(() => userMessage(client));
                 }
             }
@@ -64,9 +64,6 @@ namespace Server
                     {
                         something.Send(buffer);
                     }
-
-
-                    
                 }
             }
             catch (Exception ex)

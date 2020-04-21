@@ -78,7 +78,8 @@ namespace Super_Chat
 
         private void disconect_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            socket.Shutdown(SocketShutdown.Both);//выключили
+            socket.Close();//закрыли
         }
     }
 }
