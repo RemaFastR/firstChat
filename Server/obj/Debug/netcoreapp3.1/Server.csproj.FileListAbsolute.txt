@@ -9,3 +9,16 @@ G:\ВУЗ\3 курс\2 семестр\КСиТК\1 ЛР\Server\obj\Debug\netcore
 G:\ВУЗ\3 курс\2 семестр\КСиТК\1 ЛР\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
 G:\ВУЗ\3 курс\2 семестр\КСиТК\1 ЛР\Server\obj\Debug\netcoreapp3.1\Server.dll
 G:\ВУЗ\3 курс\2 семестр\КСиТК\1 ЛР\Server\obj\Debug\netcoreapp3.1\Server.pdb
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\bin\Debug\netcoreapp3.1\Server.exe
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\bin\Debug\netcoreapp3.1\Server.deps.json
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.json
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\bin\Debug\netcoreapp3.1\Server.runtimeconfig.dev.json
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\bin\Debug\netcoreapp3.1\Server.dll
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\bin\Debug\netcoreapp3.1\Server.pdb
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\obj\Debug\netcoreapp3.1\Server.csprojAssemblyReference.cache
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\obj\Debug\netcoreapp3.1\Server.csproj.CoreCompileInputs.cache
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfoInputs.cache
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\obj\Debug\netcoreapp3.1\Server.AssemblyInfo.cs
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\obj\Debug\netcoreapp3.1\Server.dll
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\obj\Debug\netcoreapp3.1\Server.pdb
+G:\ВУЗ\3 курс\2 семестр\КСиТК\ЛР1\Server\obj\Debug\netcoreapp3.1\Server.genruntimeconfig.cache

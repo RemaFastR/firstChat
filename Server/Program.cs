@@ -14,6 +14,7 @@ namespace Server
         public static int port = 8080; // порт для приема входящих запросов
         public static IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
         public static byte[] userName = new byte[64];
+        public static Socket client;
         static void Main(string[] args)
         {
             try
@@ -37,14 +38,14 @@ namespace Server
                 Console.WriteLine("Сервер запущен. Ожидание подключений...");
                 while (true)
                 {
-                    Socket client = socket.Accept();//принимаем нового клиента
+                    client = socket.Accept();//принимаем нового клиента
                     clients.Add(client);
                     client.Receive(userName);
 
-                    Console.WriteLine($"Новый пользователь - {Encoding.ASCII.GetString(userName)}");
+                    Console.WriteLine($"Новый пользователь - {Encoding.UTF8.GetString(userName)}");
                     foreach (var something in clients)
                     {
-                        something.Send(Encoding.ASCII.GetBytes($"Новый пользователь - {Encoding.ASCII.GetString(userName)}"));
+                        something.Send(Encoding.UTF8.GetBytes($"Новый пользователь - {Encoding.UTF8.GetString(userName)}"));
                     }
                     Task.Run(() => userMessage(client));
                 }
@@ -68,7 +69,7 @@ namespace Server
                     do
                     {
                         size = some.Receive(buffer);//получаем данные от пользователя
-                        builder.Append(Encoding.ASCII.GetString(buffer, 0, size));
+                        builder.Append(Encoding.UTF8.GetString(buffer, 0, size));
                     }
                     while (some.Available > 0);
 
@@ -81,8 +82,13 @@ namespace Server
             }
             catch (Exception ex)
             {
+                foreach (var something in clients)
+                {
+                    something.Send(Encoding.UTF8.GetBytes($"{Encoding.UTF8.GetString(userName)} покинул чат."));
+                }
                 socket.Shutdown(SocketShutdown.Both);//выключили
-                socket.Close();//закрыли
+                clients.Remove(client);
+                //socket.Close();//закрыли
                 throw ex;
             }
 

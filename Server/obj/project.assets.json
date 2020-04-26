@@ -15,11 +15,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "G:\\ВУЗ\\3 курс\\2 семестр\\КСиТК\\1 ЛР\\Server\\Server.csproj",
+      "projectUniqueName": "G:\\ВУЗ\\3 курс\\2 семестр\\КСиТК\\ЛР1\\Server\\Server.csproj",
       "projectName": "Server",
-      "projectPath": "G:\\ВУЗ\\3 курс\\2 семестр\\КСиТК\\1 ЛР\\Server\\Server.csproj",
+      "projectPath": "G:\\ВУЗ\\3 курс\\2 семестр\\КСиТК\\ЛР1\\Server\\Server.csproj",
       "packagesPath": "C:\\Users\\rembi\\.nuget\\packages\\",
-      "outputPath": "G:\\ВУЗ\\3 курс\\2 семестр\\КСиТК\\1 ЛР\\Server\\obj\\",
+      "outputPath": "G:\\ВУЗ\\3 курс\\2 семестр\\КСиТК\\ЛР1\\Server\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\",
@@ -65,7 +65,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
       }
     }
   }

@@ -42,7 +42,7 @@ namespace Super_Chat
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.Connect("127.0.0.1", 8080);//подключаемся к серверному сокету
                 string usenName = userNameTB.Text;//получаем имя пользователя
-                byte[] buffer = Encoding.ASCII.GetBytes(usenName);//кодируем имя пользователя для отправки
+                byte[] buffer = Encoding.UTF8.GetBytes(usenName);//кодируем имя пользователя для отправки
                 socket.Send(buffer);//отправляем имя пользователя серверу
                 await Task.Run(() => asyncMessage());
             }
@@ -68,7 +68,7 @@ namespace Super_Chat
                     this.Dispatcher.BeginInvoke(DispatcherPriority.Normal,
                     (ThreadStart)delegate ()
                     {
-                       chatBoxTB.Text += Encoding.ASCII.GetString(answer) + "\n";
+                       chatBoxTB.Text += Encoding.UTF8.GetString(answer) + "\n";
                     });
                 }
             }
@@ -84,7 +84,7 @@ namespace Super_Chat
                (ThreadStart)delegate ()
                {
                    string message = userNameTB.Text + ": " + messageTB.Text;//получаем текст сообщения
-                   byte[] buffer = Encoding.ASCII.GetBytes(message);//кодируем наше сообщение для отправки
+                   byte[] buffer = Encoding.UTF8.GetBytes(message);//кодируем наше сообщение для отправки
                    socket.Send(buffer);
                }
             );
